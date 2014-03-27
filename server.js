@@ -1,5 +1,6 @@
 var express = require('express'),
-    stylus = require('stylus');
+    stylus = require('stylus'),
+    mongoose = require('mongoose');
 var env = process.env.NODE_ENV =process.env.NODE_ENV || 'development';
 var app = express();
 
@@ -32,3 +33,10 @@ app.get('*', function(req, res) {
 var port = 3030;
 app.listen(port);
 console.log('listening on port ' + port + '...');
+
+mongoose.connect('mongodb://localhost/multivision');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error...'));
+db.once('open', function callback() {
+  console.log('multivision db opened');
+});
