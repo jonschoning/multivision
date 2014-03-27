@@ -1,7 +1,8 @@
 var express = require('express'),
     stylus = require('stylus'),
     mongoose = require('mongoose');
-var env = process.env.NODE_ENV =process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+var prod_mongo_pw = process.env.PROD_MONGO_PW || '';
 var app = express();
 
 function compile(str, path) {
@@ -22,7 +23,11 @@ app.configure(function() {
 });
 
 // mongo setup
-mongoose.connect('mongodb://localhost/multivision');
+if (env === 'development') {
+  mongoose.connect('mongodb://localhost/multivision');
+} else {
+  mongoose.connect('mongodb://admin:'+prod_mongo_pw+'@ds035557.mongolab.com:35557/multivision');
+}
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error...'));
 db.once('open', function callback() {
