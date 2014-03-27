@@ -6,9 +6,13 @@ var app = express();
 
 app.configure(function() {
     app.set('views', __dirname + '/server/views');
-    app.set('views_engine','jade');
+    app.set('view engine','jade');
 });
 
 app.get('*', function(req, res) {
     res.render('index');
 });
+
+var port = 3030;
+app.listen(port);
+console.log('listening on port ' + port + '...');
