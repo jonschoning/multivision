@@ -8,6 +8,8 @@ exports.authenticate = function(req, res, next) {
     // required because we're using XHR to login
     req.logIn(user, function(err) {
       if(err) {return next(err);}
+      
+      // TODO: don't send hashed_pwd and salt to client
       res.send({success:true, user: user});
     });
 
